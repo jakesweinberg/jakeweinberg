@@ -1,0 +1,7 @@
+# Cloudflare Pages: cache images and build assets for a year.
+/_img/*
+  Cache-Control: public, max-age=31536000, immutable
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+/images/*
+  Cache-Control: public, max-age=86400
