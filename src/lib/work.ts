@@ -37,3 +37,23 @@ export function neighbours(slug: string) {
     next: i < projects.length - 1 ? projects[i + 1] : undefined,
   };
 }
+
+// Lays out a project's photos in rows. Landscapes get a full row each.
+// Portraits (and any photo marked `half`) are paired with the next one
+// in the list, even if a landscape sits between them; a leftover one is
+// shown on its own, centred.
+export function photoRows(photos: Photo[]): Photo[][] {
+  const halfable = (ph: Photo) => ph.half || ph.height > ph.width;
+  const rest = [...photos];
+  const rows: Photo[][] = [];
+  while (rest.length) {
+    const ph = rest.shift()!;
+    if (!halfable(ph)) {
+      rows.push([ph]);
+      continue;
+    }
+    const j = rest.findIndex(halfable);
+    rows.push(j === -1 ? [ph] : [ph, ...rest.splice(j, 1)]);
+  }
+  return rows;
+}

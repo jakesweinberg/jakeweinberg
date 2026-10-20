@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Photo from "@/components/Photo";
-import { projects } from "@/data/projects";
-import { coverOf, getProject, neighbours, src } from "@/lib/work";
+import { projects, type Photo as PhotoT } from "@/data/projects";
+import { coverOf, getProject, neighbours, photoRows, src } from "@/lib/work";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,16 +25,8 @@ export default async function ProjectPage({ params }: Props) {
   if (!p) notFound();
   const { prev, next } = neighbours(p.slug);
 
-  // Landscape photos span the full width, back-to-back portraits sit
-  // side by side, and a lone portrait is centred on its own row.
-  const isTall = (i: number) => !!p.photos[i] && p.photos[i].height > p.photos[i].width;
-  const photos = p.photos.map((ph, i) => {
-    if (!isTall(i)) return { ph, layout: "full", half: false };
-    let run = 0;
-    for (let j = i; isTall(j - 1); j--) run++;
-    const paired = run % 2 === 0 ? isTall(i + 1) : true;
-    return { ph, layout: paired ? "" : "solo", half: true };
-  });
+  const rows = photoRows(p.photos);
+  const n = (ph: PhotoT) => p.photos.indexOf(ph) + 1;
 
   return (
     <article>
@@ -52,16 +44,20 @@ export default async function ProjectPage({ params }: Props) {
       </header>
 
       <div className="p-photos">
-        {photos.map(({ ph, layout, half }, i) => (
-          <figure key={ph.file} className={layout}>
-            <Photo
-              dir={p.slug}
-              photo={ph}
-              alt={`${p.title}, photo ${i + 1}`}
-              priority={i === 0}
-              sizes={half ? "(max-width: 720px) 100vw, 50vw" : "100vw"}
-            />
-          </figure>
+        {rows.map((row, r) => (
+          <div key={row[0].file} className={`p-row ${row.length === 1 && row[0].height > row[0].width ? "solo" : ""}`}>
+            {row.map((ph) => (
+              <figure key={ph.file} style={{ flex: row.length === 2 ? ph.width / ph.height : 1 }}>
+                <Photo
+                  dir={p.slug}
+                  photo={ph}
+                  alt={`${p.title}, photo ${n(ph)}`}
+                  priority={r === 0}
+                  sizes={row.length === 2 ? "50vw" : "100vw"}
+                />
+              </figure>
+            ))}
+          </div>
         ))}
       </div>
 

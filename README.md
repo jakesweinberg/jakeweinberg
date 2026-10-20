@@ -11,6 +11,10 @@ Next.js (App Router) exported as a static site and hosted free on Cloudflare Pag
    List every photo with its pixel width/height (Finder's Get Info shows them).
 3. `featured: true` puts it on the home page. List order is site order.
 
+On a project page, landscape photos get a full-width row and portrait photos are
+paired side by side (a portrait pairs with the next portrait in the list). Add
+`half: true` to a photo to pair it even if it's landscape.
+
 Site details (email, Instagram, bio, clients) live in `src/data/site.ts`.
 To hand-pick the home collage, list `"<slug>/<file>"` entries in `collage` in `projects.ts`.
 Empty the `bts` list to hide the BTS page.

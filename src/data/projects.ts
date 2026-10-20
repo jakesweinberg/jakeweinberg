@@ -14,6 +14,7 @@ export type Photo = {
   width: number; // original pixel size, used to reserve space
   height: number;
   alt?: string;
+  half?: boolean; // force side-by-side, e.g. to pair two landscapes
 };
 
 export type Project = {

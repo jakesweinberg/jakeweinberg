@@ -122,14 +122,15 @@ main { min-height: 70vh; }
 .p-facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; align-content: end; }
 .p-facts dd { margin: 0; }
 .p-summary { max-width: 52ch; margin: 16px 0 0; }
-.p-photos { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); padding: 0 var(--pad); }
-.p-photos figure { margin: 0; background: var(--line); }
-.p-photos .full { grid-column: 1 / -1; }
-.p-photos .solo { grid-column: 1 / -1; width: calc(50% - var(--gap) / 2); justify-self: center; }
+.p-photos { display: flex; flex-direction: column; gap: var(--gap); padding: 0 var(--pad); }
+/* Figures flex by aspect ratio so paired photos share one height */
+.p-row { display: flex; gap: var(--gap); }
+.p-row figure { margin: 0; min-width: 0; background: var(--line); }
+.p-row img { width: 100%; height: auto; }
+.p-row.solo { width: calc(50% - var(--gap) / 2); align-self: center; }
 @media (max-width: 720px) {
   .p-head { grid-template-columns: 1fr; }
-  .p-photos { grid-template-columns: 1fr; }
-  .p-photos .solo { width: 100%; }
+  .p-row.solo { width: 100%; }
 }
 .pager {
   display: flex; justify-content: space-between; gap: 16px;
