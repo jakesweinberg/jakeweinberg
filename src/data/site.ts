@@ -18,9 +18,9 @@ export const site = {
   // Tabs only appear once projects have a `category`.
   showFilters: true,
 
-  // Projects page layout: "a" Results, "b" Follow, "c" Banner.
-  // Compare them at /preview/a/, /preview/b/ and /preview/c/.
-  indexStyle: "b" as "a" | "b" | "c",
+  // Projects page layout: "a" cover pinned beside the table,
+  // "b" cover follows the cursor. Compare at /preview/a/ and /preview/b/.
+  indexStyle: "b" as "a" | "b",
 };
 
 // ── Info page ────────────────────────────────────────────────

@@ -68,7 +68,7 @@ main { min-height: 70vh; }
 .home-more { padding-top: clamp(32px, 5vw, 64px); text-align: right; }
 @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
 
-/* Projects index (three styles, see ProjectList.tsx) */
+/* Projects index (two styles, see ProjectList.tsx) */
 .index-label { margin: 0 0 32px; font-weight: 400; }
 .tabs { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 32px; }
 .tabs button {
@@ -115,17 +115,6 @@ main { min-height: 70vh; }
   .ix-b-cursor { display: none; }
   .ix-b-mobile { display: block; }
 }
-
-/* c: Banner — wide cover on top, titles in columns */
-.ix-c-banner { aspect-ratio: 2 / 1; }
-.ix-c-banner img { object-position: center 30%; }
-.ix-c-caption { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0 40px; color: var(--ink); }
-.ix-c-caption span:last-child { color: var(--muted); }
-.ix-c ul { columns: 3 240px; column-gap: clamp(24px, 4vw, 64px); border-top: 1px solid var(--line); padding-top: 16px; }
-.ix-c li { break-inside: avoid; }
-.ix-c li a { display: flex; gap: 16px; align-items: baseline; padding: 6px 0; font-size: clamp(15px, 1.3vw, 18px); }
-.ix-c li a .mono { width: 20px; flex: none; }
-@media (max-width: 720px) { .ix-c-banner { aspect-ratio: 3 / 2; } }
 
 /* Project page */
 .p-head {

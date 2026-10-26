@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ProjectList, { type IndexStyle } from "@/components/ProjectList";
 
 // Side-by-side previews of the Projects page styles. Not linked anywhere.
-const NAMES: Record<IndexStyle, string> = { a: "Results", b: "Follow", c: "Banner" };
+const NAMES: Record<IndexStyle, string> = { a: "Pinned", b: "Follow" };
 
 type Props = { params: Promise<{ style: IndexStyle }> };
 
