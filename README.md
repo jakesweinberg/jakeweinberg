@@ -6,7 +6,8 @@ Next.js (App Router) exported as a static site and hosted free on Cloudflare Pag
 ## Pages
 
 - **Home** (`/`): the newest projects (how many: `homeCount` in `src/data/site.ts`).
-- **Projects** (`/projects/`): every project as a list; each links to `/projects/<slug>/`.
+- **Projects** (`/projects/`): filter tabs (All / Editorial / Commercial / Personal) over a list of
+  titles; hovering a title shows that project's cover beside the list.
 - **BTS** (`/bts/`): photos and videos from `src/data/bts.ts`, shuffled into a new collage on every visit.
 - **Info** (`/info/`): bio, portrait, links, clients and publications from `info` in `src/data/site.ts`.
 
@@ -21,9 +22,9 @@ On a project page, landscape photos get a full-width row and portrait photos are
 paired side by side (a portrait pairs with the next portrait in the list). Add
 `half: true` to a photo to pair it even if it's landscape.
 
-**Categories (Editorial / Commercial):** off for now. Set `showCategories: true` in
-`src/data/site.ts` and give each project a `category`, and they appear on the
-home cards, the Projects list and project pages.
+**Categories:** give each project a `category` (Editorial, Commercial or Personal)
+to place it under a filter tab on the Projects page (`showFilters` in `src/data/site.ts`).
+Set `showCategories: true` to also print the category on home cards and project pages.
 
 ## Add BTS photos or videos
 

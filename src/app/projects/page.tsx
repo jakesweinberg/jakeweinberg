@@ -5,11 +5,9 @@ export const metadata: Metadata = { title: "Projects" };
 
 export default function Projects() {
   return (
-    <>
-      <div className="wrap page-top">
-        <h1 className="title">Projects</h1>
-      </div>
+    <div className="wrap page-top">
+      <h1 className="mono index-label">Projects</h1>
       <ProjectList />
-    </>
+    </div>
   );
 }

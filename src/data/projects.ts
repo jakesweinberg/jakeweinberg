@@ -22,7 +22,7 @@ export type Project = {
   folder?: string; // photo folder in public/images/ if not the slug
   title: string;
   client?: string;
-  category?: Category; // only shown when site.showCategories is true
+  category?: Category; // drives the Projects filter tabs
   year: number;
   location?: string;
   summary?: string;
@@ -35,6 +35,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "mock-project-one",
+    category: "Editorial",
     folder: "mock",
     title: "Mock Project One",
     client: "Client A",
@@ -49,6 +50,7 @@ export const projects: Project[] = [
   },
   {
     slug: "mock-project-two",
+    category: "Commercial",
     folder: "mock",
     title: "Mock Project Two",
     client: "Client B",
@@ -63,6 +65,7 @@ export const projects: Project[] = [
   },
   {
     slug: "mock-project-three",
+    category: "Editorial",
     folder: "mock",
     title: "Mock Project Three",
     client: "Client C",
@@ -77,6 +80,7 @@ export const projects: Project[] = [
   },
   {
     slug: "mock-project-four",
+    category: "Personal",
     folder: "mock",
     title: "Mock Project Four",
     client: "Client D",

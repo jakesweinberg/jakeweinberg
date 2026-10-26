@@ -13,6 +13,10 @@ export const site = {
   // Set to true to show Editorial / Commercial tags across the site.
   // Each project then needs a `category` in src/data/projects.ts.
   showCategories: false,
+
+  // Editorial / Commercial / Personal filter tabs on the Projects page.
+  // Tabs only appear once projects have a `category`.
+  showFilters: true,
 };
 
 // ── Info page ────────────────────────────────────────────────
