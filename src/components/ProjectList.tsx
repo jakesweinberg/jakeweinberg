@@ -12,7 +12,7 @@ const CATEGORIES: Category[] = ["Editorial", "Commercial", "Personal"];
 // Three layouts for the same content (filter tabs, project titles, a
 // cover that follows hover). Pick one with `indexStyle` in site.ts.
 //   a  "Results": numbered table, cover pinned on the right
-//   b  "Headline": large titles, cover follows the cursor
+//   b  "Follow": the same table, cover follows the cursor
 //   c  "Banner": wide cover across the top, titles in columns below
 export type IndexStyle = "a" | "b" | "c";
 
@@ -62,24 +62,37 @@ export default function ProjectList({ variant = site.indexStyle }: { variant?: I
 
   const num = (i: number) => String(i + 1).padStart(2, "0");
 
+  // Results table (as in "a") with the cover following the cursor.
+  const table = (
+    <>
+      {tabBar}
+      <div className="ix-a-head mono">
+        <span>No.</span><span>Project</span><span>Client</span><span>Year</span>
+      </div>
+      <ul onMouseLeave={() => setActive(undefined)}>
+        {shown.map((p, i) => (
+          <li key={p.slug}>
+            <Link href={`/projects/${p.slug}/`} {...hover(p)}>
+              <span className="mono">{num(i)}</span>
+              <span className="t">{p.title}</span>
+              <span>{p.client ?? "—"}</span>
+              <span className="mono">{p.year}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+
   if (variant === "b") {
     const move = (e: React.MouseEvent) => {
       const el = cursor.current;
       if (el) el.style.transform = `translate(${e.clientX + 40}px, ${e.clientY - 60}px)`;
     };
     return (
-      <div className="ix-b" onMouseMove={move}>
-        {tabBar}
+      <div className="ix-a ix-b" onMouseMove={move}>
         {peek("ix-b-mobile", "100vw")}
-        <ul onMouseLeave={() => setActive(undefined)}>
-          {shown.map((p) => (
-            <li key={p.slug}>
-              <Link href={`/projects/${p.slug}/`} {...hover(p)}>
-                {p.title}<sup className="mono">{p.year}</sup>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div>{table}</div>
         <div ref={cursor} className={`ix-b-cursor ${active ? "show" : ""}`} aria-hidden>
           {peek("", "260px")}
         </div>
@@ -111,24 +124,7 @@ export default function ProjectList({ variant = site.indexStyle }: { variant?: I
 
   return (
     <div className="ix-a">
-      <div>
-        {tabBar}
-        <div className="ix-a-head mono">
-          <span>No.</span><span>Project</span><span>Client</span><span>Year</span>
-        </div>
-        <ul onMouseLeave={() => setActive(undefined)}>
-          {shown.map((p, i) => (
-            <li key={p.slug}>
-              <Link href={`/projects/${p.slug}/`} {...hover(p)}>
-                <span className="mono">{num(i)}</span>
-                <span className="t">{p.title}</span>
-                <span>{p.client ?? "—"}</span>
-                <span className="mono">{p.year}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <div>{table}</div>
       {peek("ix-a-peek", "(max-width: 720px) 100vw, 40vw")}
     </div>
   );
