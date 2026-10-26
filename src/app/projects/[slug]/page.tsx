@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Photo from "@/components/Photo";
 import { projects, type Photo as PhotoT } from "@/data/projects";
 import { site } from "@/data/site";
-import { coverOf, getProject, neighbours, photoRows, src } from "@/lib/work";
+import { coverOf, dirOf, getProject, neighbours, photoRows, src } from "@/lib/work";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: p.title,
     description: p.summary,
-    openGraph: { images: [src(p.slug, coverOf(p).file)] },
+    openGraph: { images: [src(dirOf(p), coverOf(p).file)] },
   };
 }
 
@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: Props) {
             {row.map((ph) => (
               <figure key={ph.file} style={{ flex: row.length === 2 ? ph.width / ph.height : 1 }}>
                 <Photo
-                  dir={p.slug}
+                  dir={dirOf(p)}
                   photo={ph}
                   alt={`${p.title}, photo ${n(ph)}`}
                   priority={r === 0}

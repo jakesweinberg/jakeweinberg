@@ -4,6 +4,9 @@ import { site } from "@/data/site";
 
 export const src = (slug: string, file: string) => `/images/${slug}/${file}`;
 
+// Folder in public/images/ holding a project's photos.
+export const dirOf = (p: Project) => p.folder ?? p.slug;
+
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
 
 export const coverOf = (p: Project): Photo =>

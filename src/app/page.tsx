@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Photo from "@/components/Photo";
 import Tag from "@/components/Tag";
-import { coverOf, recent } from "@/lib/work";
+import { coverOf, dirOf, recent } from "@/lib/work";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
         {recent().map((p, i) => (
           <Link key={p.slug} href={`/projects/${p.slug}/`} className="card">
             <div className="thumb">
-              <Photo dir={p.slug} photo={coverOf(p)} alt={p.title} priority={i < 2} sizes="(max-width: 720px) 100vw, 50vw" />
+              <Photo dir={dirOf(p)} photo={coverOf(p)} alt={p.title} priority={i < 2} sizes="(max-width: 720px) 100vw, 50vw" />
             </div>
             <div className="meta">
               <h3>{p.title}</h3>
