@@ -1,27 +1,5 @@
-import Link from "next/link";
-import Photo from "@/components/Photo";
-import Tag from "@/components/Tag";
-import { coverOf, dirOf, recent } from "@/lib/work";
+import HomeView from "@/components/HomeView";
 
 export default function Home() {
-  return (
-    <>
-      <section className="grid home-grid" aria-label="Recent projects">
-        {recent().map((p, i) => (
-          <Link key={p.slug} href={`/projects/${p.slug}/`} className="card">
-            <div className="thumb">
-              <Photo dir={dirOf(p)} photo={coverOf(p)} alt={p.title} priority={i < 2} sizes="(max-width: 720px) 100vw, 50vw" />
-            </div>
-            <div className="meta">
-              <h3>{p.title}</h3>
-              <Tag p={p} />
-            </div>
-          </Link>
-        ))}
-      </section>
-      <div className="wrap home-more">
-        <Link href="/projects/" className="mono">All projects →</Link>
-      </div>
-    </>
-  );
+  return <HomeView />;
 }

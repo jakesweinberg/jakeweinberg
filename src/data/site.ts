@@ -10,6 +10,10 @@ export const site = {
   // How many of the newest projects the home page shows.
   homeCount: 6,
 
+  // Home page layout, 1-5 (see src/components/HomeView.tsx).
+  // Compare them at /preview/home/1/ ... /preview/home/5/.
+  homeStyle: 1 as 1 | 2 | 3 | 4 | 5,
+
   // Set to true to show Editorial / Commercial tags across the site.
   // Each project then needs a `category` in src/data/projects.ts.
   showCategories: false,
