@@ -12,7 +12,7 @@ import { coverOf, dirOf, recent } from "@/lib/work";
 // `homeStyle` in site.ts; compare them at /preview/home/1/ ... /5/.
 //   1 Grid      two-column cards
 //   2 Stack     full-width covers, one after another, title on the image
-//   3 Reel      photos play like a video, recent titles and a Projects link below
+//   3 Reel      photos play like a video, then numbered recent projects two across (as on Joe Hale's home)
 //   4 Strip     covers side by side in a row you scroll sideways
 //   5 Mosaic    newest project large, the rest in a three-column grid
 export type HomeStyle = 1 | 2 | 3 | 4 | 5;
@@ -34,7 +34,7 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
 }
 
 // Reel on top: photos of the recent projects cut quickly, like video, with the playing project's
-// title and details under it. Below, the recent projects as a three-column grid (as in Mosaic).
+// title and details under it. Below, the recent projects numbered, two across, then a Projects link.
 const FRAME_MS = 700; // ms per photo
 const FRAME_MS_REDUCED = 2000; // for visitors who ask their device for less motion
 const PER_PROJECT = 6;
@@ -77,13 +77,21 @@ function Slideshow({ items }: { items: Project[] }) {
       </div>
       <h2 className="h3-label mono">Recent work</h2>
       <div className="h3-grid">
-        {items.map((q) => (
-          <Card key={q.slug} p={q} sizes="(max-width: 720px) 100vw, 33vw" />
+        {items.map((q, n) => (
+          <Link key={q.slug} href={href(q)} className="h3-card">
+            <div className="thumb">
+              <Photo dir={dirOf(q)} photo={coverOf(q)} alt={q.title} sizes="(max-width: 720px) 100vw, 50vw" />
+            </div>
+            <div className="h3-cap">
+              <span className="mono">{String(n + 1).padStart(2, "0")}</span>
+              <h3>{q.title}</h3>
+              <Tag p={q} />
+            </div>
+          </Link>
         ))}
       </div>
-      <Link href="/projects/" className="h3-all">
-        <span>All projects</span>
-        <span className="mono">{String(projects.length).padStart(2, "0")} →</span>
+      <Link href="/projects/" className="h3-more">
+        All projects <span aria-hidden>→</span>
       </Link>
     </section>
   );
