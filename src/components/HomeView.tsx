@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Photo from "@/components/Photo";
 import Tag from "@/components/Tag";
 import { projects, type Project } from "@/data/projects";
@@ -33,15 +33,21 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
   );
 }
 
-// Plays through the photos of each recent project like a reel: quick
-// cross-fades with a slow push-in. The title bar follows along, and
+// Plays through the photos of each recent project like a fast reel:
+// quick cuts with a slight push-in. The title bar follows along, and
 // hovering a title jumps to that project.
-const FRAME_MS = 1600;
+const FRAME_MS = 350;
 const PER_PROJECT = 6;
 
 function Slideshow({ items }: { items: Project[] }) {
   const frames = items.flatMap((p, pi) => p.photos.slice(0, PER_PROJECT).map((ph) => ({ p, pi, ph })));
   const [i, setI] = useState(0);
+  const [peek, setPeek] = useState<string | null>(null);
+  const cursor = useRef<HTMLDivElement>(null);
+  const move = (e: React.MouseEvent) => {
+    const el = cursor.current;
+    if (el) el.style.transform = `translate(${e.clientX + 40}px, ${e.clientY - 60}px)`;
+  };
   useEffect(() => {
     const t = setTimeout(() => setI((n) => (n + 1) % frames.length), FRAME_MS);
     return () => clearTimeout(t);
@@ -62,15 +68,25 @@ function Slideshow({ items }: { items: Project[] }) {
         <span className="h3-title">{p.title}</span>
         <span>{String(pi + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
       </div>
-      <ul className="h3-list">
+      <ul className="h3-list" onMouseMove={move} onMouseLeave={() => setPeek(null)}>
         {items.map((q, n) => (
           <li key={q.slug}>
-            <Link href={href(q)} className={n === pi ? "on" : ""} onMouseEnter={() => jump(n)}>
+            <Link href={href(q)} className={n === pi ? "on" : ""} onMouseEnter={() => { jump(n); setPeek(q.slug); }}>
               {q.title}
             </Link>
           </li>
         ))}
       </ul>
+      {/* Cover that follows the cursor over the titles, as on Projects */}
+      <div ref={cursor} className={`ix-b-cursor ${peek ? "show" : ""}`} aria-hidden>
+        <div className="peek-stack">
+          {items.map((q) => (
+            <div key={q.slug} className={q.slug === peek ? "on" : ""}>
+              <Photo dir={dirOf(q)} photo={coverOf(q)} fill sizes="260px" />
+            </div>
+          ))}
+        </div>
+      </div>
       <Link href="/projects/" className="h3-all">
         <span>All projects</span>
         <span className="mono">{String(projects.length).padStart(2, "0")} →</span>
