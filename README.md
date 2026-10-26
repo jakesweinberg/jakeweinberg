@@ -3,21 +3,33 @@
 Portfolio site for [jakeweinbergphoto.com](https://jakeweinbergphoto.com).
 Next.js (App Router) exported as a static site and hosted free on Cloudflare Pages.
 
+## Pages
+
+- **Home** (`/`): the newest projects (how many: `homeCount` in `src/data/site.ts`).
+- **Projects** (`/projects/`): every project as a list; each links to `/projects/<slug>/`.
+- **BTS** (`/bts/`): photos and videos from `src/data/bts.ts`, shuffled into a new collage on every visit.
+- **Info** (`/info/`): bio, portrait, links, clients and publications from `info` in `src/data/site.ts`.
+
 ## Add a project
 
-1. Make a folder `public/images/<slug>/` and drop the photos in (`01.jpg`, `02.jpg`, ...).
-   Export JPGs around 2400px on the long edge; the build makes smaller WebP copies.
-2. Open `src/data/projects.ts`, copy an existing entry, and fill in the fields.
-   List every photo with its pixel width/height (Finder's Get Info shows them).
-3. `featured: true` puts it on the home page. List order is site order.
+1. Make a folder `public/images/<slug>/` and drop the photos in (original filenames are fine).
+2. Open `src/data/projects.ts`, copy an existing entry to the top of the list, and fill in the fields.
+   List every photo with its pixel width/height.
+3. List order is site order, newest first.
 
 On a project page, landscape photos get a full-width row and portrait photos are
 paired side by side (a portrait pairs with the next portrait in the list). Add
 `half: true` to a photo to pair it even if it's landscape.
 
-Site details (email, Instagram, bio, clients) live in `src/data/site.ts`.
-To hand-pick the home collage, list `"<slug>/<file>"` entries in `collage` in `projects.ts`.
-Empty the `bts` list to hide the BTS page.
+**Categories (Editorial / Commercial):** off for now. Set `showCategories: true` in
+`src/data/site.ts` and give each project a `category`, and they appear on the
+home cards, the Projects list and project pages.
+
+## Add BTS photos or videos
+
+Drop files into `public/images/bts/` and list them in `src/data/bts.ts` with their
+width/height. `.mp4` files play silently on a loop. Keep videos short and small
+(under ~10MB, and Cloudflare Pages rejects any file over 25MB).
 
 ## Run locally
 

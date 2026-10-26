@@ -6,7 +6,7 @@ import { site } from "@/data/site";
 import { hasBts } from "@/lib/work";
 
 const links = [
-  { href: "/work/", label: "Index" },
+  { href: "/projects/", label: "Projects" },
   ...(hasBts ? [{ href: "/bts/", label: "BTS" }] : []),
   { href: "/info/", label: "Info" },
 ];

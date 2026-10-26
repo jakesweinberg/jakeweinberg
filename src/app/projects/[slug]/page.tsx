@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Photo from "@/components/Photo";
 import { projects, type Photo as PhotoT } from "@/data/projects";
+import { site } from "@/data/site";
 import { coverOf, getProject, neighbours, photoRows, src } from "@/lib/work";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -37,7 +38,7 @@ export default async function ProjectPage({ params }: Props) {
         </div>
         <dl className="p-facts mono">
           {p.client && (<><dt>Client</dt><dd style={{ color: "var(--ink)" }}>{p.client}</dd></>)}
-          <dt>Category</dt><dd style={{ color: "var(--ink)" }}>{p.category}</dd>
+          {site.showCategories && p.category && (<><dt>Category</dt><dd style={{ color: "var(--ink)" }}>{p.category}</dd></>)}
           <dt>Year</dt><dd style={{ color: "var(--ink)" }}>{p.year}</dd>
           {p.location && (<><dt>Location</dt><dd style={{ color: "var(--ink)" }}>{p.location}</dd></>)}
         </dl>

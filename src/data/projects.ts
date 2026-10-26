@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────
 // ALL WORK LIVES HERE.
 // To add a project:
-//   1. Put its photos in  public/images/<slug>/  (01.jpg, 02.jpg, ...)
+//   1. Put its photos in  public/images/<slug>/
 //   2. Copy an entry below, change the fields, list the photo files.
-//   3. Set `featured: true` to show it on the home page.
-// Order in this list = order on the site (newest first).
+// Order in this list = order on the site (newest first). The home page
+// shows the first few (site.homeCount in src/data/site.ts).
 // ─────────────────────────────────────────────────────────────
 
 export type Category = "Editorial" | "Commercial" | "Personal";
@@ -21,11 +21,10 @@ export type Project = {
   slug: string; // used in the URL: /projects/<slug>
   title: string;
   client?: string;
-  category: Category;
+  category?: Category; // only shown when site.showCategories is true
   year: number;
   location?: string;
   summary?: string;
-  featured?: boolean;
   cover: string; // one of the photo files
   photos: Photo[];
 };
@@ -39,7 +38,6 @@ export const projects: Project[] = [
     category: "Editorial",
     year: 2026,
     summary: "", // TODO: one or two sentences about the shoot
-    featured: true,
     cover: "01.jpg",
     photos: [
       { file: "01.jpg", width: 2400, height: 1600 },
@@ -57,7 +55,6 @@ export const projects: Project[] = [
     category: "Commercial",
     year: 2026,
     summary: "", // TODO: one or two sentences about the shoot
-    featured: true,
     cover: "01.jpg",
     photos: [
       { file: "01.jpg", width: 1600, height: 2000 },
@@ -75,7 +72,6 @@ export const projects: Project[] = [
     year: 2026,
     location: "Chicago, IL",
     summary: "", // TODO: one or two sentences about the shoot
-    featured: true,
     cover: "01.jpg",
     photos: [
       { file: "01.jpg", width: 2400, height: 1600 },
@@ -93,7 +89,6 @@ export const projects: Project[] = [
     year: 2025,
     location: "Bloomington, IN",
     summary: "", // TODO: one or two sentences about the shoot
-    featured: true,
     cover: "01.jpg",
     photos: [
       { file: "01.jpg", width: 2400, height: 1600 },
@@ -110,7 +105,6 @@ export const projects: Project[] = [
     year: 2025,
     location: "Bloomington, IN",
     summary: "", // TODO: one or two sentences about the shoot
-    featured: true,
     cover: "01.jpg",
     photos: [
       { file: "01.jpg", width: 1600, height: 2400 },
@@ -119,16 +113,4 @@ export const projects: Project[] = [
       { file: "04.jpg", width: 2400, height: 1600 },
     ],
   },
-];
-
-// Hand-picked images for the home page collage, as "<slug>/<file>".
-// Leave empty to auto-pick the cover of every featured project.
-export const collage: string[] = [];
-
-// Behind-the-scenes photos for /bts (files in public/images/bts/).
-// Leave empty to hide the BTS page from the nav.
-export const bts: Photo[] = [
-  { file: "01.jpg", width: 2400, height: 1600, alt: "Behind the scenes" },
-  { file: "02.jpg", width: 1600, height: 2000, alt: "Behind the scenes" },
-  { file: "03.jpg", width: 2400, height: 1600, alt: "Behind the scenes" },
 ];

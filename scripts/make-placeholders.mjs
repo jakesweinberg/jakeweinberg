@@ -5,12 +5,15 @@ import path from "node:path";
 import sharp from "sharp";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-const { projects, bts } = await import(path.join(ROOT, "src/data/projects.ts"));
+const { projects } = await import(path.join(ROOT, "src/data/projects.ts"));
+const { bts } = await import(path.join(ROOT, "src/data/bts.ts"));
+const { info } = await import(path.join(ROOT, "src/data/site.ts"));
 
 const tones = ["#d9d6d0", "#cfd3d6", "#d6d2c9", "#c9cdc8", "#dcd8d2", "#d0ccc6"];
 const jobs = [
   ...projects.flatMap((p, i) => p.photos.map((ph) => ({ dir: p.slug, ph, label: p.title, tone: tones[i % tones.length] }))),
-  ...bts.map((ph) => ({ dir: "bts", ph, label: "BTS", tone: "#cfcbc4" })),
+  ...bts.filter((ph) => /\.(jpe?g|png)$/i.test(ph.file)).map((ph) => ({ dir: "bts", ph, label: "BTS", tone: "#cfcbc4" })),
+  ...(info.portrait ? [{ dir: "info", ph: info.portrait, label: "Portrait", tone: "#d6d2c9" }] : []),
 ];
 
 for (const { dir, ph, label, tone } of jobs) {

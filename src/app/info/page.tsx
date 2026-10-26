@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { site } from "@/data/site";
+import Photo from "@/components/Photo";
+import { info, site } from "@/data/site";
 
 export const metadata: Metadata = { title: "Info" };
 
@@ -7,19 +8,37 @@ export default function Info() {
   return (
     <section className="info">
       <div>
-        {site.bio.map((para) => <p key={para}>{para}</p>)}
+        {info.portrait && (
+          <figure className="info-portrait">
+            <Photo dir="info" photo={info.portrait} alt={site.shortName} priority sizes="(max-width: 720px) 100vw, 25vw" />
+          </figure>
+        )}
+        <div className="info-bio">
+          {info.bio.map((para) => <p key={para}>{para}</p>)}
+        </div>
       </div>
       <div>
-        <h2 className="mono" style={{ margin: 0 }}>Contact</h2>
+        <h2 className="mono">Contact</h2>
         <ul>
-          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><a href={`https://instagram.com/${site.instagram}`} target="_blank" rel="noreferrer">@{site.instagram}</a></li>
-          <li>{site.location}</li>
+          {info.links.map((l) => (
+            <li key={l.label}>
+              <span className="mono">{l.label}</span>
+              <a href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{l.text}</a>
+            </li>
+          ))}
         </ul>
-        <h2 className="mono" style={{ margin: 0 }}>Selected clients</h2>
-        <ul>
-          {site.clients.map((c) => <li key={c}>{c}</li>)}
-        </ul>
+        {info.clients.length > 0 && (
+          <>
+            <h2 className="mono">Clients</h2>
+            <ul>{info.clients.map((c) => <li key={c}>{c}</li>)}</ul>
+          </>
+        )}
+        {info.publications.length > 0 && (
+          <>
+            <h2 className="mono">Publications</h2>
+            <ul>{info.publications.map((c) => <li key={c}>{c}</li>)}</ul>
+          </>
+        )}
       </div>
     </section>
   );
