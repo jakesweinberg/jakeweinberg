@@ -84,11 +84,12 @@ main { min-height: 70vh; }
 
 /* Home 3: Reel — photos cut quickly, like video */
 .h3 { padding: 8px var(--pad) 0; }
-.h3-stage { display: block; height: calc(100svh - 170px); min-height: 360px; }
+.h3-stage { display: block; height: calc(100svh - 200px); min-height: 360px; }
 .h3-stage > div { transition: none; } /* hard cuts, like a video edit */
 .h3-stage img { object-fit: cover; object-position: center 25%; }
 .h3-bar { display: flex; justify-content: space-between; padding: 10px 0 28px; }
 .h3-title { color: var(--ink); }
+.h3-label { margin: 0 0 10px; font-weight: 400; }
 .h3-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 28px; }
 .h3-list a { color: var(--muted); transition: color .15s; font-size: clamp(15px, 1.3vw, 18px); }
 .h3-list a.on, .h3-list a:hover { color: var(--ink); }

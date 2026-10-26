@@ -89,6 +89,7 @@ function Slideshow({ items }: { items: Project[] }) {
         <span className="h3-title">{p.title}</span>
         <span>{String(pi + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
       </div>
+      <h2 className="h3-label mono">Recent work</h2>
       <ul className="h3-list" onMouseMove={move} onMouseLeave={() => setPeek(null)}>
         {items.map((q, n) => (
           <li key={q.slug}>
