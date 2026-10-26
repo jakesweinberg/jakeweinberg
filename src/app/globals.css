@@ -139,14 +139,14 @@ main { min-height: 70vh; }
 .info a:hover { text-decoration: underline; }
 @media (max-width: 720px) { .info { grid-template-columns: 1fr; } }
 
-/* BTS: shuffled in the browser, fades in once arranged */
+/* BTS: masonry with even gaps; order shuffled in the browser */
 .bts {
-  columns: 3; column-gap: clamp(16px, 3vw, 48px);
+  columns: 3; column-gap: var(--gap);
   padding: 0 var(--pad);
   opacity: 0; transition: opacity .4s;
 }
 .bts.on { opacity: 1; }
-.bts figure { margin: 0 0 clamp(16px, 3vw, 48px); break-inside: avoid; background: var(--line); }
+.bts figure { margin: 0 0 var(--gap); break-inside: avoid; background: var(--line); }
 .bts video { display: block; width: 100%; height: auto; object-fit: cover; }
 @media (max-width: 720px) { .bts { columns: 2; } }
 
