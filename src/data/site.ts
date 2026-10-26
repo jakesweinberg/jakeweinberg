@@ -25,6 +25,10 @@ export const site = {
   // Projects page layout: "a" cover pinned beside the table,
   // "b" cover follows the cursor. Compare at /preview/a/ and /preview/b/.
   indexStyle: "b" as "a" | "b",
+
+  // Clapper board that claps once when someone opens the site.
+  // Plays once per visit; skipped for visitors who turn off motion.
+  intro: true,
 };
 
 // ── Info page ────────────────────────────────────────────────

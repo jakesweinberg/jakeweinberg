@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Intro, { introScript } from "@/components/Intro";
 import { site } from "@/data/site";
 import "./globals.css";
 
@@ -19,8 +20,14 @@ export const viewport: Viewport = { themeColor: "#ffffff" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body>
+        {site.intro && (
+          <>
+            <script dangerouslySetInnerHTML={{ __html: introScript }} />
+            <Intro />
+          </>
+        )}
         <Header />
         <main>{children}</main>
         <Footer />

@@ -224,3 +224,67 @@ main { min-height: 70vh; }
 }
 .footer-links { display: flex; gap: 16px; }
 .footer a:hover { color: var(--ink); }
+
+/* ── Intro slate ─────────────────────────────────────────── */
+.intro {
+  position: fixed; inset: 0; z-index: 100;
+  display: grid; place-items: center;
+  background: var(--bg);
+  cursor: pointer;
+  animation: intro-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) 1.35s forwards;
+}
+.no-intro .intro { display: none; }
+@keyframes intro-out { to { transform: translateY(-100%); } }
+
+.slate {
+  --w: min(440px, 84vw);
+  width: var(--w);
+  animation: slate-in 0.35s ease-out both, slate-hit 0.18s ease-out 0.62s;
+}
+@keyframes slate-in { from { opacity: 0; transform: translateY(14px) scale(0.97); } }
+@keyframes slate-hit { 40% { transform: translateY(3px); } }
+
+.slate-stick {
+  height: calc(var(--w) * 0.095);
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+}
+.slate-top {
+  background: repeating-linear-gradient(120deg, var(--ink) 0 calc(var(--w) * 0.05), #fff 0 calc(var(--w) * 0.1));
+  transform-origin: 2px 100%;
+  animation: slate-clap 0.27s cubic-bezier(0.55, 0, 0.9, 0.4) 0.35s both;
+}
+.slate-base {
+  margin-top: 2px;
+  background: repeating-linear-gradient(60deg, var(--ink) 0 calc(var(--w) * 0.05), #fff 0 calc(var(--w) * 0.1));
+}
+@keyframes slate-clap { from { transform: rotate(-24deg); } }
+
+.slate-board {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-top: 2px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 3px;
+  padding: calc(var(--w) * 0.02);
+}
+.slate-cell {
+  grid-column: span 2;
+  display: flex; flex-direction: column; gap: 2px;
+  padding: calc(var(--w) * 0.025) calc(var(--w) * 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  margin: -1px 0 0 -1px;
+}
+.slate-wide { grid-column: span 6; }
+.slate-half { grid-column: span 3; }
+.slate-cell span {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.slate-cell strong { font-weight: 500; font-size: calc(var(--w) * 0.068); letter-spacing: -0.02em; line-height: 1.1; }
+.slate-cell b {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 400; font-size: calc(var(--w) * 0.04); min-height: 1.4em;
+}
