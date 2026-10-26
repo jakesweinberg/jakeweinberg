@@ -17,6 +17,10 @@ export const site = {
   // Editorial / Commercial / Personal filter tabs on the Projects page.
   // Tabs only appear once projects have a `category`.
   showFilters: true,
+
+  // Projects page layout: "a" Results, "b" Headline, "c" Banner.
+  // Compare them at /preview/a/, /preview/b/ and /preview/c/.
+  indexStyle: "a" as "a" | "b" | "c",
 };
 
 // ── Info page ────────────────────────────────────────────────

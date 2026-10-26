@@ -68,16 +68,8 @@ main { min-height: 70vh; }
 .home-more { padding-top: clamp(32px, 5vw, 64px); text-align: right; }
 @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
 
-/* Projects index: hover a title to show its cover on the left */
+/* Projects index (three styles, see ProjectList.tsx) */
 .index-label { margin: 0 0 32px; font-weight: 400; }
-.index {
-  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: clamp(24px, 3vw, 48px); max-width: 1100px;
-}
-.index-peek { position: sticky; top: 80px; align-self: start; aspect-ratio: 3 / 2; background: var(--line); }
-.index-peek > div { position: absolute; inset: 0; opacity: 0; transition: opacity .25s; }
-.index-peek > div.on { opacity: 1; }
-.index-peek img { object-fit: cover; }
 .tabs { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 32px; }
 .tabs button {
   font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--muted);
@@ -86,16 +78,59 @@ main { min-height: 70vh; }
 }
 .tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--ink); }
 .tabs sup { font-size: 9px; margin-left: 3px; }
-.index-list ul { list-style: none; margin: 0; padding: 0; }
-.index-list li a {
-  display: inline-block; padding: 4px 0;
-  font-size: clamp(15px, 1.2vw, 17px); color: var(--muted); transition: color .15s;
+.peek-stack { position: relative; background: var(--line); overflow: hidden; }
+.peek-stack > div { position: absolute; inset: 0; opacity: 0; transition: opacity .25s; }
+.peek-stack > div.on { opacity: 1; }
+.peek-stack img { object-fit: cover; }
+[class^="ix-"] ul { list-style: none; margin: 0; padding: 0; }
+[class^="ix-"] li a { color: var(--muted); transition: color .15s; }
+[class^="ix-"] li a.on { color: var(--ink); }
+
+/* a: Results — numbered table, cover pinned right */
+.ix-a { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(24px, 4vw, 64px); }
+.ix-a-head, .ix-a li a {
+  display: grid; grid-template-columns: 40px 3fr 2fr 56px; gap: 16px; align-items: baseline;
 }
-.index-list li a.on { color: var(--ink); }
+.ix-a-head { padding-bottom: 8px; border-bottom: 1px solid var(--ink); color: var(--muted); }
+.ix-a-head span:last-child, .ix-a li a span:last-child { text-align: right; }
+.ix-a li a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.ix-a li a .t { font-size: clamp(15px, 1.3vw, 18px); font-weight: 500; letter-spacing: -0.01em; }
+.ix-a-peek { position: sticky; top: 80px; align-self: start; aspect-ratio: 4 / 5; }
 @media (max-width: 720px) {
-  .index { grid-template-columns: 1fr; }
-  .index-peek { position: relative; top: 0; }
+  .ix-a { grid-template-columns: 1fr; }
+  .ix-a-peek { order: -1; position: relative; top: 0; aspect-ratio: 3 / 2; }
+  .ix-a-head, .ix-a li a { grid-template-columns: 32px 1fr 48px; }
+  .ix-a-head span:nth-child(3), .ix-a li a span:nth-child(3) { display: none; }
 }
+
+/* b: Headline — big titles, cover follows the cursor */
+.ix-b li a {
+  display: inline-block; padding: 2px 0;
+  font-size: clamp(32px, 5.5vw, 76px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.05;
+}
+.ix-b sup { font-size: 11px; letter-spacing: 0.06em; margin-left: 8px; vertical-align: super; }
+.ix-b-cursor {
+  position: fixed; left: 0; top: 0; z-index: 20; width: 260px; pointer-events: none;
+  opacity: 0; transition: opacity .2s;
+}
+.ix-b-cursor.show { opacity: 1; }
+.ix-b-cursor .peek-stack { aspect-ratio: 4 / 5; }
+.ix-b-mobile { display: none; aspect-ratio: 3 / 2; margin-bottom: 24px; }
+@media (max-width: 720px), (hover: none) {
+  .ix-b-cursor { display: none; }
+  .ix-b-mobile { display: block; }
+}
+
+/* c: Banner — wide cover on top, titles in columns */
+.ix-c-banner { aspect-ratio: 2 / 1; }
+.ix-c-banner img { object-position: center 30%; }
+.ix-c-caption { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0 40px; color: var(--ink); }
+.ix-c-caption span:last-child { color: var(--muted); }
+.ix-c ul { columns: 3 240px; column-gap: clamp(24px, 4vw, 64px); border-top: 1px solid var(--line); padding-top: 16px; }
+.ix-c li { break-inside: avoid; }
+.ix-c li a { display: flex; gap: 16px; align-items: baseline; padding: 6px 0; font-size: clamp(15px, 1.3vw, 18px); }
+.ix-c li a .mono { width: 20px; flex: none; }
+@media (max-width: 720px) { .ix-c-banner { aspect-ratio: 3 / 2; } }
 
 /* Project page */
 .p-head {
