@@ -82,14 +82,11 @@ main { min-height: 70vh; }
 .h2-cap .mono { color: rgba(255,255,255,.8); }
 @media (max-width: 720px) { .h2-item { aspect-ratio: 4 / 5; } }
 
-/* Home 3: Reel — photos cross-fade with a slow push-in, like video */
+/* Home 3: Reel — photos cut quickly, like video */
 .h3 { padding: 8px var(--pad) 0; }
 .h3-stage { display: block; height: calc(100svh - 170px); min-height: 360px; }
 .h3-stage > div { transition: opacity .12s linear; }
 .h3-stage img { object-fit: cover; object-position: center 25%; }
-.h3-stage > div.on img { animation: h3-push .6s ease-out both; }
-@keyframes h3-push { from { transform: scale(1); } to { transform: scale(1.03); } }
-@media (prefers-reduced-motion: reduce) { .h3-stage > div.on img { animation: none; } }
 .h3-bar { display: flex; justify-content: space-between; padding: 10px 0 28px; }
 .h3-title { color: var(--ink); }
 .h3-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 28px; }

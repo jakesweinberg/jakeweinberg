@@ -33,8 +33,7 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
   );
 }
 
-// Plays through the photos of each recent project like a fast reel:
-// quick cuts with a slight push-in. The title bar follows along, and
+// Plays through the photos of each recent project like a fast reel. The title bar follows along, and
 // hovering a title jumps to that project.
 const FRAME_MS = 350;
 const PER_PROJECT = 6;
