@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Photo from "@/components/Photo";
 import Tag from "@/components/Tag";
-import type { Project } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
 import { site } from "@/data/site";
 import { coverOf, dirOf, recent } from "@/lib/work";
 
@@ -12,7 +12,7 @@ import { coverOf, dirOf, recent } from "@/lib/work";
 // `homeStyle` in site.ts; compare them at /preview/home/1/ ... /5/.
 //   1 Grid      two-column cards
 //   2 Stack     full-width covers, one after another, title on the image
-//   3 Slideshow one large cover that cycles, recent titles listed below
+//   3 Reel      photos play like a video, recent titles and a Projects link below
 //   4 Strip     covers side by side in a row you scroll sideways
 //   5 Mosaic    newest project large, the rest in a three-column grid
 export type HomeStyle = 1 | 2 | 3 | 4 | 5;
@@ -33,35 +33,48 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
   );
 }
 
+// Plays through the photos of each recent project like a reel: quick
+// cross-fades with a slow push-in. The title bar follows along, and
+// hovering a title jumps to that project.
+const FRAME_MS = 1600;
+const PER_PROJECT = 6;
+
 function Slideshow({ items }: { items: Project[] }) {
+  const frames = items.flatMap((p, pi) => p.photos.slice(0, PER_PROJECT).map((ph) => ({ p, pi, ph })));
   const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setI((n) => (n + 1) % items.length), 4000);
-    return () => clearInterval(t);
-  }, [items.length, i]);
-  const p = items[i];
+    const t = setTimeout(() => setI((n) => (n + 1) % frames.length), FRAME_MS);
+    return () => clearTimeout(t);
+  }, [i, frames.length]);
+  const { p, pi } = frames[i];
+  const jump = (n: number) => setI(frames.findIndex((f) => f.pi === n));
+
   return (
     <section className="h3">
       <Link href={href(p)} className="h3-stage peek-stack" aria-label={p.title}>
-        {items.map((q, n) => (
-          <div key={q.slug} className={n === i ? "on" : ""}>
-            <Photo dir={dirOf(q)} photo={coverOf(q)} alt={q.title} fill priority={n === 0} sizes="100vw" />
+        {frames.map((f, n) => (
+          <div key={`${f.p.slug}/${f.ph.file}`} className={n === i ? "on" : ""}>
+            <Photo dir={dirOf(f.p)} photo={f.ph} alt={f.p.title} fill priority={n < 2} sizes="100vw" />
           </div>
         ))}
       </Link>
       <div className="h3-bar mono">
         <span className="h3-title">{p.title}</span>
-        <span>{String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
+        <span>{String(pi + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
       </div>
       <ul className="h3-list">
         {items.map((q, n) => (
           <li key={q.slug}>
-            <Link href={href(q)} className={n === i ? "on" : ""} onMouseEnter={() => setI(n)}>
+            <Link href={href(q)} className={n === pi ? "on" : ""} onMouseEnter={() => jump(n)}>
               {q.title}
             </Link>
           </li>
         ))}
       </ul>
+      <Link href="/projects/" className="h3-all">
+        <span>All projects</span>
+        <span className="mono">{String(projects.length).padStart(2, "0")} →</span>
+      </Link>
     </section>
   );
 }
@@ -113,6 +126,8 @@ export default function HomeView({ variant = site.homeStyle }: { variant?: HomeS
       </section>
     );
   }
+
+  if (variant === 3) return body;
 
   return (
     <>

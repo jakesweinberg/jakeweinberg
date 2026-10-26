@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import HomeView, { type HomeStyle } from "@/components/HomeView";
 
 // Previews of the home page layouts. Not linked anywhere.
-const NAMES = ["Grid", "Stack", "Slideshow", "Strip", "Mosaic"];
+const NAMES = ["Grid", "Stack", "Reel", "Strip", "Mosaic"];
 
 type Props = { params: Promise<{ n: string }> };
 
