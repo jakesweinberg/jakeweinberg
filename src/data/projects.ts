@@ -23,7 +23,7 @@ export type Project = {
   title: string;
   client?: string;
   category?: Category; // drives the Projects filter tabs
-  year: number;
+  date: string; // "YYYY-MM", shown as month and year, e.g. "2026-10" → Oct 2026
   location?: string;
   summary?: string;
   cover: string; // one of the photo files
@@ -39,7 +39,7 @@ export const projects: Project[] = [
     folder: "mock",
     title: "Mock Project One",
     client: "Client A",
-    year: 2026,
+    date: "2026-10",
     cover: "JWP 21.JPG",
     photos: [
       { file: "JWP 21.JPG", width: 3000, height: 2001 },
@@ -54,7 +54,7 @@ export const projects: Project[] = [
     folder: "mock",
     title: "Mock Project Two",
     client: "Client B",
-    year: 2026,
+    date: "2026-06",
     cover: "JWP 24.JPG",
     photos: [
       { file: "JWP 24.JPG", width: 2001, height: 3000 },
@@ -69,7 +69,7 @@ export const projects: Project[] = [
     folder: "mock",
     title: "Mock Project Three",
     client: "Client C",
-    year: 2025,
+    date: "2025-11",
     cover: "JWP 8.JPG",
     photos: [
       { file: "JWP 8.JPG", width: 2400, height: 3000 },
@@ -84,7 +84,7 @@ export const projects: Project[] = [
     folder: "mock",
     title: "Mock Project Four",
     client: "Client D",
-    year: 2025,
+    date: "2025-03",
     cover: "JWP 9.JPG",
     photos: [
       { file: "JWP 9.JPG", width: 2529, height: 1677 },

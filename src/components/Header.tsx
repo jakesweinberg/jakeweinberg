@@ -6,6 +6,7 @@ import { site } from "@/data/site";
 import { hasBts } from "@/lib/work";
 
 const links = [
+  { href: "/", label: "Home" },
   { href: "/projects/", label: "Projects" },
   ...(hasBts ? [{ href: "/bts/", label: "BTS" }] : []),
   { href: "/info/", label: "Info" },
@@ -18,7 +19,7 @@ export default function Header() {
       <Link href="/" className="brand">{site.shortName}</Link>
       <nav className="nav">
         {links.map((l) => (
-          <Link key={l.href} href={l.href} aria-current={path.startsWith(l.href.slice(0, -1)) ? "page" : undefined}>
+          <Link key={l.href} href={l.href} aria-current={(l.href === "/" ? path === "/" : path.startsWith(l.href.slice(0, -1))) ? "page" : undefined}>
             {l.label}
           </Link>
         ))}

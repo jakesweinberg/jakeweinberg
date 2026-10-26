@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import Photo from "@/components/Photo";
 import { projects, type Category, type Project } from "@/data/projects";
 import { site } from "@/data/site";
-import { coverOf, dirOf } from "@/lib/work";
+import { coverOf, dateOf, dirOf } from "@/lib/work";
 
 const CATEGORIES: Category[] = ["Editorial", "Commercial", "Personal"];
 
@@ -66,7 +66,7 @@ export default function ProjectList({ variant = site.indexStyle }: { variant?: I
     <>
       {tabBar}
       <div className="ix-a-head mono">
-        <span>No.</span><span>Project</span><span>Client</span><span>Year</span>
+        <span>No.</span><span>Project</span><span>Client</span><span>Date</span>
       </div>
       <ul onMouseLeave={() => setActive(undefined)}>
         {shown.map((p, i) => (
@@ -75,7 +75,7 @@ export default function ProjectList({ variant = site.indexStyle }: { variant?: I
               <span className="mono">{num(i)}</span>
               <span className="t">{p.title}</span>
               <span>{p.client ?? "—"}</span>
-              <span className="mono">{p.year}</span>
+              <span className="mono">{dateOf(p)}</span>
             </Link>
           </li>
         ))}

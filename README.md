@@ -5,9 +5,10 @@ Next.js (App Router) exported as a static site and hosted free on Cloudflare Pag
 
 ## Pages
 
-- **Home** (`/`): the newest projects (how many: `homeCount` in `src/data/site.ts`).
+- **Home** (`/`): a reel that cuts through the newest projects' photos, the playing project's title
+  and details under it, then the newest projects as a grid (how many: `homeCount` in `src/data/site.ts`).
 - **Projects** (`/projects/`): filter tabs (All / Editorial / Commercial / Personal) over a list of
-  titles; hovering a title shows that project's cover beside the list.
+  titles with client and date; hovering a title shows that project's cover by the mouse.
 - **BTS** (`/bts/`): photos and videos from `src/data/bts.ts`, shuffled into a new collage on every visit.
 - **Info** (`/info/`): bio, portrait, links, clients and publications from `info` in `src/data/site.ts`.
 
@@ -15,7 +16,7 @@ Next.js (App Router) exported as a static site and hosted free on Cloudflare Pag
 
 1. Make a folder `public/images/<slug>/` and drop the photos in (original filenames are fine).
 2. Open `src/data/projects.ts`, copy an existing entry to the top of the list, and fill in the fields.
-   List every photo with its pixel width/height.
+   List every photo with its pixel width/height. `date` is year and month, `"2026-10"`, shown as Oct 2026.
 3. List order is site order, newest first.
 
 On a project page, landscape photos get a full-width row and portrait photos are
@@ -57,4 +58,5 @@ Then Custom domains → add `jakeweinbergphoto.com` (and `www`). Every push to `
 `scripts/optimize-images.mjs` runs before every build and writes WebP versions of each
 photo at 480/960/1600/2400px into `public/_img`. `next/image` uses a custom loader
 (`src/lib/imageLoader.ts`) so phones download the small sizes, everything below the
-fold lazy-loads, and `public/_headers` tells Cloudflare to cache them for a year.
+fold lazy-loads, and `public/_headers` tells Cloudflare to cache them for a day (photos keep their
+filenames, so a swapped photo shows up by the next day).

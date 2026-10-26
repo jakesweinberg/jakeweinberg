@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Photo from "@/components/Photo";
 import Tag from "@/components/Tag";
 import { projects, type Project } from "@/data/projects";
@@ -33,15 +33,15 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
   );
 }
 
-// Plays through the photos of each recent project like a fast reel. The title bar follows along, and
-// hovering a title jumps to that project.
+// Reel on top: photos of the recent projects cut quickly, like video, with the playing project's
+// title and details under it. Below, the recent projects as a three-column grid (as in Mosaic).
 const FRAME_MS = 700; // ms per photo
 const FRAME_MS_REDUCED = 2000; // for visitors who ask their device for less motion
 const PER_PROJECT = 6;
 const AHEAD = 4; // frames loaded ahead of the one showing
 
 function Slideshow({ items }: { items: Project[] }) {
-  const frames = items.flatMap((p, pi) => p.photos.slice(0, PER_PROJECT).map((ph) => ({ p, pi, ph })));
+  const frames = items.flatMap((p) => p.photos.slice(0, PER_PROJECT).map((ph) => ({ p, ph })));
   const [i, setI] = useState(0);
   // Frames load as the reel gets near them, so the page doesn't fetch every photo up front.
   const [reach, setReach] = useState(AHEAD);
@@ -50,16 +50,6 @@ function Slideshow({ items }: { items: Project[] }) {
   const [loaded, setLoaded] = useState<Set<number>>(() => new Set());
   const next = frames.length ? (i + 1) % frames.length : 0;
   const nextReady = loaded.has(next);
-  const [peek, setPeek] = useState<string | null>(null);
-  const cursor = useRef<HTMLDivElement>(null);
-  const move = (e: React.MouseEvent) => {
-    const el = cursor.current;
-    if (!el) return;
-    // Flips above the cursor near the bottom of the screen so the cover never runs off it.
-    const below = e.clientY - 60;
-    const y = below + el.offsetHeight + 16 > window.innerHeight ? e.clientY - el.offsetHeight - 24 : below;
-    el.style.transform = `translate(${e.clientX + 40}px, ${y}px)`;
-  };
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setMs(FRAME_MS_REDUCED);
   }, []);
@@ -70,11 +60,7 @@ function Slideshow({ items }: { items: Project[] }) {
     return () => clearTimeout(t);
   }, [i, next, nextReady, frames.length, ms]);
   if (frames.length === 0) return null;
-  const { p, pi } = frames[Math.min(i, frames.length - 1)];
-  const jump = (n: number) => {
-    const at = frames.findIndex((f) => f.pi === n);
-    if (at >= 0) setI(at);
-  };
+  const { p } = frames[Math.min(i, frames.length - 1)];
 
   return (
     <section className="h3">
@@ -85,29 +71,15 @@ function Slideshow({ items }: { items: Project[] }) {
           </div>
         ))}
       </Link>
-      <div className="h3-bar mono">
-        <span className="h3-title">{p.title}</span>
-        <span>{String(pi + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
+      <div className="h3-bar">
+        <Link href={href(p)} className="h3-title">{p.title}</Link>
+        <Tag p={p} />
       </div>
       <h2 className="h3-label mono">Recent work</h2>
-      <ul className="h3-list" onMouseMove={move} onMouseLeave={() => setPeek(null)}>
-        {items.map((q, n) => (
-          <li key={q.slug}>
-            <Link href={href(q)} className={n === pi ? "on" : ""} onMouseEnter={() => { jump(n); setPeek(q.slug); }}>
-              {q.title}
-            </Link>
-          </li>
+      <div className="h3-grid">
+        {items.map((q) => (
+          <Card key={q.slug} p={q} sizes="(max-width: 720px) 100vw, 33vw" />
         ))}
-      </ul>
-      {/* Cover that follows the cursor over the titles, as on Projects */}
-      <div ref={cursor} className={`ix-b-cursor ${peek ? "show" : ""}`} aria-hidden>
-        <div className="peek-stack">
-          {items.map((q) => (
-            <div key={q.slug} className={q.slug === peek ? "on" : ""}>
-              <Photo dir={dirOf(q)} photo={coverOf(q)} fill sizes="260px" />
-            </div>
-          ))}
-        </div>
       </div>
       <Link href="/projects/" className="h3-all">
         <span>All projects</span>

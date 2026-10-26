@@ -7,6 +7,13 @@ export const src = (slug: string, file: string) => `/images/${slug}/${file}`;
 // Folder in public/images/ holding a project's photos.
 export const dirOf = (p: Project) => p.folder ?? p.slug;
 
+// "2026-10" → "Oct 2026"
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export function dateOf(p: Project) {
+  const [y, m] = p.date.split("-").map(Number);
+  return m >= 1 && m <= 12 ? `${MONTHS[m - 1]} ${y}` : String(y);
+}
+
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
 
 export const coverOf = (p: Project): Photo =>

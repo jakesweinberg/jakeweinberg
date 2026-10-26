@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Photo from "@/components/Photo";
 import { projects, type Photo as PhotoT } from "@/data/projects";
 import { site } from "@/data/site";
-import { coverOf, dirOf, getProject, neighbours, photoRows, src } from "@/lib/work";
+import { coverOf, dateOf, dirOf, getProject, neighbours, photoRows, src } from "@/lib/work";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -14,10 +14,11 @@ export const generateStaticParams = () => projects.map((p) => ({ slug: p.slug })
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = getProject((await params).slug);
   if (!p) return {};
+  const description = p.summary ?? `${p.title}${p.client ? ` for ${p.client}` : ""}, ${dateOf(p)}. Photographed by Jake Weinberg.`;
   return {
     title: p.title,
-    description: p.summary,
-    openGraph: { images: [src(dirOf(p), coverOf(p).file)] },
+    description,
+    openGraph: { siteName: site.name, type: "website", description, images: [src(dirOf(p), coverOf(p).file)] },
   };
 }
 
@@ -39,7 +40,7 @@ export default async function ProjectPage({ params }: Props) {
         <dl className="p-facts mono">
           {p.client && (<><dt>Client</dt><dd style={{ color: "var(--ink)" }}>{p.client}</dd></>)}
           {site.showCategories && p.category && (<><dt>Category</dt><dd style={{ color: "var(--ink)" }}>{p.category}</dd></>)}
-          <dt>Year</dt><dd style={{ color: "var(--ink)" }}>{p.year}</dd>
+          <dt>Date</dt><dd style={{ color: "var(--ink)" }}>{dateOf(p)}</dd>
           {p.location && (<><dt>Location</dt><dd style={{ color: "var(--ink)" }}>{p.location}</dd></>)}
         </dl>
       </header>
