@@ -109,6 +109,8 @@ main { min-height: 70vh; }
 @media (max-width: 720px) {
   .h3-stage { height: auto; aspect-ratio: 4 / 5; }
   .h3-grid { grid-template-columns: 1fr; }
+  .h3-cap { grid-template-columns: 28px minmax(0, 1fr); row-gap: 2px; }
+  .h3-cap .mono:last-child { grid-column: 2; }
 }
 
 /* Home 4: Strip — scroll sideways */
