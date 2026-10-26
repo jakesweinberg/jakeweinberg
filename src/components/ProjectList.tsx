@@ -86,7 +86,11 @@ export default function ProjectList({ variant = site.indexStyle }: { variant?: I
   if (variant === "b") {
     const move = (e: React.MouseEvent) => {
       const el = cursor.current;
-      if (el) el.style.transform = `translate(${e.clientX + 40}px, ${e.clientY - 60}px)`;
+      if (!el) return;
+      // Flips above the cursor near the bottom of the screen so the cover never runs off it.
+      const below = e.clientY - 60;
+      const y = below + el.offsetHeight + 16 > window.innerHeight ? e.clientY - el.offsetHeight - 24 : below;
+      el.style.transform = `translate(${e.clientX + 40}px, ${y}px)`;
     };
     return (
       <div className="ix-a ix-b" onMouseMove={move}>
