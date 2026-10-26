@@ -13,10 +13,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
 // then the slate lifts away. Click or tap to skip.
 export default function Intro() {
   const [gone, setGone] = useState(false);
-  const [date, setDate] = useState("");
+  // Roll / scene / take read as today's date: month, day, year.
+  const [date, setDate] = useState(["", "", ""]);
   useEffect(() => {
     const d = new Date();
-    setDate(`${pad(d.getMonth() + 1)}.${pad(d.getDate())}.${String(d.getFullYear()).slice(2)}`);
+    setDate([pad(d.getMonth() + 1), pad(d.getDate()), String(d.getFullYear()).slice(2)]);
   }, []);
   if (gone) return null;
 
@@ -33,13 +34,12 @@ export default function Intro() {
         <div className="slate-board">
           <div className="slate-cell slate-wide">
             <span>Prod.</span>
-            <strong>{site.name}</strong>
+            <strong>jakeweinberg.com</strong>
           </div>
-          <div className="slate-cell"><span>Roll</span><b>01</b></div>
-          <div className="slate-cell"><span>Scene</span><b>01</b></div>
-          <div className="slate-cell"><span>Take</span><b>01</b></div>
-          <div className="slate-cell slate-half"><span>Date</span><b>{date}</b></div>
-          <div className="slate-cell slate-half"><span>Location</span><b>Summit, NJ</b></div>
+          <div className="slate-cell"><span>Roll</span><b>{date[0]}</b></div>
+          <div className="slate-cell"><span>Scene</span><b>{date[1]}</b></div>
+          <div className="slate-cell"><span>Take</span><b>{date[2]}</b></div>
+          <div className="slate-cell slate-foot"><span>Location</span><b>{site.location}</b></div>
         </div>
       </div>
     </div>
