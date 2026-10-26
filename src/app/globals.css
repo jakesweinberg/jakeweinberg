@@ -85,7 +85,7 @@ main { min-height: 70vh; }
 /* Home 3: Reel — photos cut quickly, like video */
 .h3 { padding: 8px var(--pad) 0; }
 .h3-stage { display: block; height: calc(100svh - 170px); min-height: 360px; }
-.h3-stage > div { transition: opacity .12s linear; }
+.h3-stage > div { transition: none; } /* hard cuts, like a video edit */
 .h3-stage img { object-fit: cover; object-position: center 25%; }
 .h3-bar { display: flex; justify-content: space-between; padding: 10px 0 28px; }
 .h3-title { color: var(--ink); }
@@ -233,71 +233,81 @@ main { min-height: 70vh; }
   background: var(--bg);
   cursor: pointer;
   overflow: hidden;
-  animation: intro-out 0.45s cubic-bezier(0.7, 0, 0.3, 1) 0.95s forwards;
+  will-change: transform;
+  animation: intro-out 0.7s cubic-bezier(0.76, 0, 0.24, 1) 1s forwards;
 }
 .no-intro .intro { display: none; }
 @keyframes intro-out { to { transform: translateY(-100%); } }
 
 /* Fills the screen: two striped sticks on top, the board below. */
 .slate {
-  --stick: clamp(40px, 9vh, 110px);
-  --stripe: calc(var(--stick) * 0.9);
+  --stick: clamp(36px, 8vh, 96px);
+  --stripe: calc(var(--stick) * 0.8);
   flex: 1;
-  display: flex; flex-direction: column;
-  animation: slate-in 0.22s ease-out both, slate-hit 0.15s ease-out 0.42s;
+  display: flex; flex-direction: column; gap: 4px;
+  animation: slate-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both, slate-hit 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.53s;
 }
-@keyframes slate-in { from { opacity: 0; transform: scale(0.98); } }
-@keyframes slate-hit { 40% { transform: translateY(6px); } }
+@keyframes slate-in { from { opacity: 0; transform: translateY(16px); } }
+@keyframes slate-hit { 30% { transform: translateY(4px); } }
 
 .slate-stick {
   flex: none;
   height: var(--stick);
-  border: 3px solid var(--ink);
-  border-radius: 4px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(var(--a), var(--ink) 0 var(--stripe), #fff 0 calc(var(--stripe) * 2));
+  box-shadow: inset 0 0 0 2px var(--ink);
 }
 .slate-top {
-  background: repeating-linear-gradient(120deg, var(--ink) 0 var(--stripe), #fff 0 calc(var(--stripe) * 2));
-  transform-origin: 3px 100%;
-  animation: slate-clap 0.2s cubic-bezier(0.55, 0, 0.9, 0.4) 0.22s both;
+  --a: 120deg;
+  transform-origin: 0 100%;
+  will-change: transform;
+  /* Opens, then falls shut with a small rebound. */
+  animation: slate-clap 0.5s linear 0.1s both;
 }
-.slate-base {
-  margin-top: 3px;
-  background: repeating-linear-gradient(60deg, var(--ink) 0 var(--stripe), #fff 0 calc(var(--stripe) * 2));
+.slate-base { --a: 60deg; }
+@keyframes slate-clap {
+  0%   { transform: rotate(-11deg); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  60%  { transform: rotate(0deg);   animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+  78%  { transform: rotate(-1.2deg); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  100% { transform: rotate(0deg); }
 }
-@keyframes slate-clap { from { transform: rotate(-12deg); } }
 
 .slate-board {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1.2fr 1fr auto;
-  margin-top: 3px;
+  grid-template-rows: 1fr auto;
   background: var(--ink);
   color: #fff;
-  border-radius: 4px;
-  padding: clamp(6px, 1vw, 14px);
+  border-radius: 2px;
+  padding: 0 clamp(16px, 2.4vw, 40px);
 }
 .slate-cell {
-  display: flex; flex-direction: column; justify-content: space-between; gap: 4px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: clamp(6px, 1vh, 14px);
   min-width: 0;
-  padding: clamp(10px, 1.6vw, 24px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  margin: -1px 0 0 -1px;
+  padding: clamp(16px, 3vh, 36px) 0;
 }
-.slate-wide { grid-column: span 3; }
+.slate-wide { grid-column: span 3; border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
+.slate-cell + .slate-cell:not(.slate-wide) { padding-left: clamp(12px, 2vw, 32px); border-left: 1px solid rgba(255, 255, 255, 0.18); }
 .slate-cell span {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: clamp(10px, 1vw, 13px); letter-spacing: 0.08em; text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(10px, 0.9vw, 12px); letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
 }
 .slate-cell strong {
-  font-weight: 500; letter-spacing: -0.03em; line-height: 1;
-  font-size: min(10.5vw, 16vh);
+  font-weight: 500; letter-spacing: -0.04em; line-height: 0.95;
+  font-size: min(10.5vw, 17vh);
+}
+/* Phones: a smaller slate in landscape proportions, centred. */
+@media (max-aspect-ratio: 1 / 1) {
+  .intro { align-items: center; }
+  .slate { --stick: 8vw; flex: none; width: 100%; aspect-ratio: 5 / 4; }
+  .slate-board { padding: 0 4vw; }
+  .slate-cell { padding: 3.5vw 0; gap: 1.5vw; }
+  .slate-cell span { font-size: 9px; }
 }
 .slate-cell b {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-weight: 400; line-height: 1;
-  font-size: min(15vw, 20vh); min-height: 1em;
+  font-weight: 400; letter-spacing: -0.04em; line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  font-size: min(14vw, 19vh); min-height: 0.9em;
 }
-.slate-foot { grid-column: span 3; flex-direction: row; align-items: baseline; }
-.slate-foot b { font-size: clamp(12px, 1.4vw, 18px); }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { site } from "@/data/site";
 
 // Runs before the page paints: skips the slate if it already played this
 // visit, or if the visitor's device asks for less motion.
@@ -33,13 +32,11 @@ export default function Intro() {
         <div className="slate-stick slate-base" />
         <div className="slate-board">
           <div className="slate-cell slate-wide">
-            <span>Prod.</span>
             <strong>jakeweinberg.com</strong>
           </div>
           <div className="slate-cell"><span>Roll</span><b>{date[0]}</b></div>
           <div className="slate-cell"><span>Scene</span><b>{date[1]}</b></div>
           <div className="slate-cell"><span>Take</span><b>{date[2]}</b></div>
-          <div className="slate-cell slate-foot"><span>Location</span><b>{site.location}</b></div>
         </div>
       </div>
     </div>
