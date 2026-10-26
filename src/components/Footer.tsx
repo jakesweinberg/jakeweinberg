@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="footer mono">
       <span>© {new Date().getFullYear()} {site.name} · {site.location}</span>
       <span className="footer-links">
-        {info.links.map((l) => (
+        {info.links.filter((l) => l.href).map((l) => (
           <a key={l.label} href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
             {l.label}
           </a>

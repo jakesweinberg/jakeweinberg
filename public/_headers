@@ -1,7 +1,10 @@
-# Cloudflare Pages: cache images and build assets for a year.
-/_img/*
-  Cache-Control: public, max-age=31536000, immutable
+# Cloudflare Pages cache rules.
+# Build assets have hashed names, so they can be cached for a year.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
+# Photos keep their original filenames, so a replaced photo has the same URL.
+# Cache for a day and refresh in the background after that.
+/_img/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /images/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

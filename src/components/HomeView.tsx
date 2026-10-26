@@ -36,11 +36,16 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
 // Plays through the photos of each recent project like a fast reel. The title bar follows along, and
 // hovering a title jumps to that project.
 const FRAME_MS = 350;
+const FRAME_MS_REDUCED = 2000; // for visitors who ask their device for less motion
 const PER_PROJECT = 6;
+const AHEAD = 4; // frames loaded ahead of the one showing
 
 function Slideshow({ items }: { items: Project[] }) {
   const frames = items.flatMap((p, pi) => p.photos.slice(0, PER_PROJECT).map((ph) => ({ p, pi, ph })));
   const [i, setI] = useState(0);
+  // Frames load as the reel gets near them, so the page doesn't fetch every photo up front.
+  const [reach, setReach] = useState(AHEAD);
+  const [ms, setMs] = useState(FRAME_MS);
   const [peek, setPeek] = useState<string | null>(null);
   const cursor = useRef<HTMLDivElement>(null);
   const move = (e: React.MouseEvent) => {
@@ -48,18 +53,27 @@ function Slideshow({ items }: { items: Project[] }) {
     if (el) el.style.transform = `translate(${e.clientX + 40}px, ${e.clientY - 60}px)`;
   };
   useEffect(() => {
-    const t = setTimeout(() => setI((n) => (n + 1) % frames.length), FRAME_MS);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setMs(FRAME_MS_REDUCED);
+  }, []);
+  useEffect(() => setReach((r) => Math.max(r, i + AHEAD)), [i]);
+  useEffect(() => {
+    if (frames.length < 2) return;
+    const t = setTimeout(() => setI((n) => (n + 1) % frames.length), ms);
     return () => clearTimeout(t);
-  }, [i, frames.length]);
-  const { p, pi } = frames[i];
-  const jump = (n: number) => setI(frames.findIndex((f) => f.pi === n));
+  }, [i, frames.length, ms]);
+  if (frames.length === 0) return null;
+  const { p, pi } = frames[Math.min(i, frames.length - 1)];
+  const jump = (n: number) => {
+    const at = frames.findIndex((f) => f.pi === n);
+    if (at >= 0) setI(at);
+  };
 
   return (
     <section className="h3">
       <Link href={href(p)} className="h3-stage peek-stack" aria-label={p.title}>
         {frames.map((f, n) => (
           <div key={`${f.p.slug}/${f.ph.file}`} className={n === i ? "on" : ""}>
-            <Photo dir={dirOf(f.p)} photo={f.ph} alt={f.p.title} fill priority={n < 2} sizes="100vw" />
+            {n <= reach && <Photo dir={dirOf(f.p)} photo={f.ph} alt={f.p.title} fill priority={n < 2} sizes="100vw" />}
           </div>
         ))}
       </Link>

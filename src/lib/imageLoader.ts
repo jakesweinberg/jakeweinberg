@@ -5,5 +5,6 @@ export default function imageLoader({ src, width }: { src: string; width: number
   if (!src.startsWith("/images/")) return src;
   const w = WIDTHS.find((x) => x >= width) ?? WIDTHS[WIDTHS.length - 1];
   const base = src.replace(/^\/images\//, "").replace(/\.[a-z0-9]+$/i, "");
-  return `/_img/${base}-${w}.webp`;
+  // Encoded so filenames with spaces work in srcset.
+  return encodeURI(`/_img/${base}-${w}.webp`);
 }

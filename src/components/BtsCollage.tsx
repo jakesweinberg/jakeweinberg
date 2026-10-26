@@ -25,7 +25,7 @@ export default function BtsCollage() {
         <figure key={t.file}>
           {isVideo(t.file) ? (
             <video
-              src={`/images/bts/${t.file}`}
+              src={encodeURI(`/images/bts/${t.file}`)}
               width={t.width}
               height={t.height}
               autoPlay

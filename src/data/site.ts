@@ -42,7 +42,7 @@ export const info = {
   links: [
     { label: "Email", href: "mailto:hello@jakeweinberg.com", text: "hello@jakeweinberg.com" },
     { label: "Instagram", href: "https://instagram.com/jakeweinbergphoto", text: "@jakeweinbergphoto" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/", text: "LinkedIn" }, // TODO: profile URL
+    { label: "LinkedIn", href: "", text: "LinkedIn" }, // TODO: profile URL (links with an empty href are hidden)
   ],
 
   clients: ["Nike", "Citius", "HN"], // TODO: full list

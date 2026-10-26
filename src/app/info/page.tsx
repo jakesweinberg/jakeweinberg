@@ -20,7 +20,7 @@ export default function Info() {
       <div>
         <h2 className="mono">Contact</h2>
         <ul>
-          {info.links.map((l) => (
+          {info.links.filter((l) => l.href).map((l) => (
             <li key={l.label}>
               <span className="mono">{l.label}</span>
               <a href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{l.text}</a>
