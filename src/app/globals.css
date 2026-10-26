@@ -312,10 +312,10 @@ main { min-height: 70vh; }
   font-size: min(14vw, 19vh); min-height: 0.9em;
 }
 
-/* Small slate, about 2 inches across, centred on every screen. */
+/* Small slate, about 3 inches across, centred on every screen. */
 .intro-small { align-items: center; justify-content: center; }
 .intro-small .slate {
-  --w: 2in;
+  --w: min(3in, 84vw);
   --stick: calc(var(--w) * 0.085);
   flex: none; width: var(--w); aspect-ratio: auto; gap: 2px;
 }
@@ -323,6 +323,13 @@ main { min-height: 70vh; }
 .intro-small .slate-board { flex: none; padding: 0 calc(var(--w) * 0.05); }
 .intro-small .slate-cell { padding: calc(var(--w) * 0.05) 0; gap: 3px; }
 .intro-small .slate-cell + .slate-cell:not(.slate-wide) { padding-left: calc(var(--w) * 0.04); }
-.intro-small .slate-cell span { font-size: 6px; }
+.intro-small .slate-cell span { font-size: 8px; }
 .intro-small .slate-cell strong { font-size: calc(var(--w) * 0.105); }
 .intro-small .slate-cell b { font-size: calc(var(--w) * 0.16); }
+.intro-small.intro-blur {
+  background: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+.intro-small.intro-page { background: transparent; }
+.intro-small .slate { filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.2)); }

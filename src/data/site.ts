@@ -29,8 +29,10 @@ export const site = {
   // Clapper board that claps once when someone opens the site.
   // Plays once per visit; skipped for visitors who turn off motion.
   intro: true,
-  // "small" is a slate about 2 inches across; "full" fills the screen.
+  // "small" is a slate about 3 inches across; "full" fills the screen.
   introSize: "full" as "small" | "full",
+  // Behind the small slate: "white", "blur" (home page blurred) or "page" (home page as is).
+  introBackdrop: "white" as "white" | "blur" | "page",
 };
 
 // ── Info page ────────────────────────────────────────────────

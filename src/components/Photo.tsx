@@ -9,15 +9,17 @@ type Props = {
   alt?: string;
   priority?: boolean;
   fill?: boolean;
+  onLoad?: () => void;
 };
 
 // Thin wrapper around next/image that knows where project photos live.
-export default function Photo({ dir, photo, sizes, alt, priority, fill }: Props) {
+export default function Photo({ dir, photo, sizes, alt, priority, fill, onLoad }: Props) {
   const common = {
     src: src(dir, photo.file),
     alt: photo.alt ?? alt ?? "",
     sizes,
     priority,
+    onLoad,
   };
   return fill ? (
     <Image {...common} fill />

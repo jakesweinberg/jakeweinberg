@@ -46,6 +46,10 @@ function Slideshow({ items }: { items: Project[] }) {
   // Frames load as the reel gets near them, so the page doesn't fetch every photo up front.
   const [reach, setReach] = useState(AHEAD);
   const [ms, setMs] = useState(FRAME_MS);
+  // The reel only moves on once the next photo has loaded, so a slow connection never shows a blank frame.
+  const [loaded, setLoaded] = useState<Set<number>>(() => new Set());
+  const next = frames.length ? (i + 1) % frames.length : 0;
+  const nextReady = loaded.has(next);
   const [peek, setPeek] = useState<string | null>(null);
   const cursor = useRef<HTMLDivElement>(null);
   const move = (e: React.MouseEvent) => {
@@ -57,10 +61,10 @@ function Slideshow({ items }: { items: Project[] }) {
   }, []);
   useEffect(() => setReach((r) => Math.max(r, i + AHEAD)), [i]);
   useEffect(() => {
-    if (frames.length < 2) return;
-    const t = setTimeout(() => setI((n) => (n + 1) % frames.length), ms);
+    if (frames.length < 2 || !nextReady) return;
+    const t = setTimeout(() => setI(next), ms);
     return () => clearTimeout(t);
-  }, [i, frames.length, ms]);
+  }, [i, next, nextReady, frames.length, ms]);
   if (frames.length === 0) return null;
   const { p, pi } = frames[Math.min(i, frames.length - 1)];
   const jump = (n: number) => {
@@ -73,7 +77,7 @@ function Slideshow({ items }: { items: Project[] }) {
       <Link href={href(p)} className="h3-stage peek-stack" aria-label={p.title}>
         {frames.map((f, n) => (
           <div key={`${f.p.slug}/${f.ph.file}`} className={n === i ? "on" : ""}>
-            {n <= reach && <Photo dir={dirOf(f.p)} photo={f.ph} alt={f.p.title} fill priority={n < 2} sizes="100vw" />}
+            {n <= reach && <Photo dir={dirOf(f.p)} photo={f.ph} alt={f.p.title} fill priority={n < 2} sizes="100vw" onLoad={() => setLoaded((s) => (s.has(n) ? s : new Set(s).add(n)))} />}
           </div>
         ))}
       </Link>

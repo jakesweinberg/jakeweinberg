@@ -23,7 +23,7 @@ export default function Intro() {
 
   return (
     <div
-      className={`intro intro-${site.introSize}`}
+      className={`intro intro-${site.introSize} intro-${site.introBackdrop}`}
       aria-hidden
       onClick={() => setGone(true)}
       onAnimationEnd={(e) => e.target === e.currentTarget && setGone(true)}
