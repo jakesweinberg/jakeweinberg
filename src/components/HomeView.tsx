@@ -35,7 +35,7 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
 
 // Plays through the photos of each recent project like a fast reel. The title bar follows along, and
 // hovering a title jumps to that project.
-const FRAME_MS = 350;
+const FRAME_MS = 700; // ms per photo
 const FRAME_MS_REDUCED = 2000; // for visitors who ask their device for less motion
 const PER_PROJECT = 6;
 const AHEAD = 4; // frames loaded ahead of the one showing
