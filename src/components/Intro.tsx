@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { site } from "@/data/site";
 
 // Runs before the page paints: skips the slate if it already played this
 // visit, or if the visitor's device asks for less motion.
@@ -22,7 +23,7 @@ export default function Intro() {
 
   return (
     <div
-      className="intro"
+      className={`intro intro-${site.introSize}`}
       aria-hidden
       onClick={() => setGone(true)}
       onAnimationEnd={(e) => e.target === e.currentTarget && setGone(true)}

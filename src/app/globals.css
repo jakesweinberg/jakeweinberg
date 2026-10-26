@@ -311,3 +311,18 @@ main { min-height: 70vh; }
   font-variant-numeric: tabular-nums;
   font-size: min(14vw, 19vh); min-height: 0.9em;
 }
+
+/* Small slate, about 2 inches across, centred on every screen. */
+.intro-small { align-items: center; justify-content: center; }
+.intro-small .slate {
+  --w: 2in;
+  --stick: calc(var(--w) * 0.085);
+  flex: none; width: var(--w); aspect-ratio: auto; gap: 2px;
+}
+.intro-small .slate-stick { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.intro-small .slate-board { flex: none; padding: 0 calc(var(--w) * 0.05); }
+.intro-small .slate-cell { padding: calc(var(--w) * 0.05) 0; gap: 3px; }
+.intro-small .slate-cell + .slate-cell:not(.slate-wide) { padding-left: calc(var(--w) * 0.04); }
+.intro-small .slate-cell span { font-size: 6px; }
+.intro-small .slate-cell strong { font-size: calc(var(--w) * 0.105); }
+.intro-small .slate-cell b { font-size: calc(var(--w) * 0.16); }
