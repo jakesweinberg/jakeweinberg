@@ -33,8 +33,8 @@ function Card({ p, priority, sizes, className = "card" }: { p: Project; priority
   );
 }
 
-// Reel on top: photos of the recent projects cut quickly, like video, with the playing project's
-// title and details under it. On desktop the reel is centred and fills the first screen on its own. Below, the recent projects numbered, uncropped and staggered
+// Reel on top: photos of the recent projects cut quickly, like video, with no caption (clicking
+// opens the playing project). On desktop the reel is centred and fills the first screen on its own. Below, the recent projects numbered, uncropped and staggered
 // in an uneven layout, then a Projects link.
 const FRAME_MS = 700; // ms per photo
 const FRAME_MS_REDUCED = 2000; // for visitors who ask their device for less motion
@@ -73,10 +73,6 @@ function Slideshow({ items }: { items: Project[] }) {
           </div>
         ))}
       </Link>
-      <div className="h3-bar">
-        <Link href={href(p)} className="h3-title">{p.title}</Link>
-        <Tag p={p} />
-      </div>
       </div>
       <h2 className="h3-label mono">Recent work</h2>
       <div className="h3-grid">
