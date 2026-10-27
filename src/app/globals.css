@@ -87,8 +87,11 @@ main { min-height: 70vh; }
 /* Home 3: Reel — photos cut quickly, like video */
 .h3 { padding: 8px var(--pad) 0; }
 .h3-stage { display: block; height: calc(100svh - 150px); min-height: 360px; }
-.h3-stage > div { transition: none; } /* hard cuts, like a video edit */
-.h3-stage img { object-fit: cover; object-position: center 25%; }
+.h3-stage.peek-stack > div { transition: none; } /* hard cuts, like a video edit */
+/* Uncropped: every photo is the stage's height (unless it's wider than the
+   stage), and its width follows its own shape, centred on white. */
+.h3-stage.peek-stack { background: transparent; }
+.h3-stage.peek-stack img { object-fit: contain; object-position: center; }
 .h3-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; padding: 12px 0 0; }
 .h3-title { font-size: clamp(18px, 2vw, 28px); font-weight: 600; letter-spacing: -0.02em; }
 .h3-bar .mono { white-space: nowrap; }
@@ -113,6 +116,7 @@ main { min-height: 70vh; }
 .h3-more:hover span { transform: translateX(4px); }
 @media (max-width: 720px) {
   .h3-stage { height: auto; aspect-ratio: 4 / 5; }
+  .h3-stage.peek-stack img { object-position: center bottom; } /* wide photos sit on the title */
   .h3-grid { --h3-gap: 8px; columns: 2; }
 }
 
