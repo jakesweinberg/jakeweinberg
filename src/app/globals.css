@@ -115,9 +115,15 @@ main { min-height: 70vh; }
 .h3-more span { transition: transform .2s; }
 .h3-more:hover span { transform: translateX(4px); }
 @media (max-width: 720px) {
-  .h3-stage { height: auto; aspect-ratio: 4 / 5; }
+  /* Shorter stage on phones, so wide photos don't leave a band of white above them. */
+  .h3-stage { height: auto; aspect-ratio: 5 / 4; }
   .h3-stage.peek-stack img { object-position: center bottom; } /* wide photos sit on the title */
   .h3-grid { --h3-gap: 8px; columns: 2; }
+  /* Phones: number and name only, small and light; client and date dropped. */
+  .h3-bar .mono, .h3-cap .mono:last-child { display: none; }
+  .h3-cap { grid-template-columns: 20px minmax(0, 1fr); gap: 0 4px; padding: 4px 0 2px; }
+  .h3-cap h3 { font-size: 12px; font-weight: 400; letter-spacing: 0; }
+  .h3-cap .mono:first-child { font-size: 10px; }
 }
 
 /* Home 4: Strip — scroll sideways */
