@@ -20,7 +20,7 @@ export const site = {
 
   // Editorial / Commercial / Personal filter tabs on the Projects page.
   // Tabs only appear once projects have a `category`.
-  showFilters: true,
+  showFilters: false,
 
   // Projects page layout: "a" cover pinned beside the table,
   // "b" cover follows the cursor. Compare at /preview/a/ and /preview/b/.
