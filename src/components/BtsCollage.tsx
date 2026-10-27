@@ -36,7 +36,7 @@ export default function BtsCollage() {
               style={{ aspectRatio: `${t.width} / ${t.height}` }}
             />
           ) : (
-            <Photo dir="bts" photo={t} priority={i < 6} sizes="(max-width: 720px) 33vw, (max-width: 1024px) 25vw, 17vw" alt={t.alt ?? "Behind the scenes"} />
+            <Photo dir="bts" photo={t} priority={i < 8} sizes="(max-width: 720px) 33vw, (max-width: 1024px) 20vw, 13vw" alt={t.alt ?? "Behind the scenes"} />
           )}
         </figure>
       ))}
