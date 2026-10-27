@@ -96,7 +96,7 @@ main { min-height: 70vh; }
 /* Recent work: covers uncropped at their own shape, packed tightly in
    columns with one even gap across and down. The photos' different
    shapes make the columns uneven, so the layout isn't symmetrical. */
-.h3-grid { --h3-gap: 10px; columns: 3; column-gap: var(--h3-gap); max-width: 1040px; }
+.h3-grid { --h3-gap: 10px; columns: 3; column-gap: var(--h3-gap); }
 .h3-card { display: block; break-inside: avoid; margin-bottom: var(--h3-gap); }
 @media (max-width: 1024px) { .h3-grid { columns: 2; } }
 .h3-img { background: var(--line); overflow: hidden; }
