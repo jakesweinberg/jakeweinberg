@@ -81,7 +81,7 @@ function Slideshow({ items }: { items: Project[] }) {
         {items.map((q, n) => (
           <Link key={q.slug} href={href(q)} className="h3-card">
             <div className="h3-img">
-              <Photo dir={dirOf(q)} photo={coverOf(q)} alt={q.title} sizes="(max-width: 720px) 70vw, (max-width: 1024px) 50vw, 33vw" />
+              <Photo dir={dirOf(q)} photo={coverOf(q)} alt={q.title} sizes="(max-width: 1024px) 50vw, 33vw" />
             </div>
             <div className="h3-cap">
               <span className="mono">{String(n + 1).padStart(2, "0")}</span>

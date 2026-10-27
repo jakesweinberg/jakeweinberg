@@ -94,21 +94,15 @@ main { min-height: 70vh; }
 .h3-bar .mono { white-space: nowrap; }
 .h3-label { margin: clamp(36px, 5vw, 64px) 0 14px; font-weight: 400; }
 /* Recent work: covers uncropped at their own shape, packed tightly in
-   columns (each column fills straight down, no gaps under short photos),
-   with uneven widths and alignments so the layout isn't symmetrical. */
-.h3-grid { columns: 3; column-gap: var(--gap); }
-.h3-card { display: block; break-inside: avoid; margin-bottom: clamp(16px, 2vw, 28px); }
-.h3-card:nth-child(6n + 1) { width: 100%; }
-.h3-card:nth-child(6n + 2) { width: 78%; margin-left: auto; }
-.h3-card:nth-child(6n + 3) { width: 88%; }
-.h3-card:nth-child(6n + 4) { width: 100%; }
-.h3-card:nth-child(6n + 5) { width: 72%; margin-left: auto; }
-.h3-card:nth-child(6n) { width: 90%; margin-left: 6%; }
+   columns with one even gap across and down. The photos' different
+   shapes make the columns uneven, so the layout isn't symmetrical. */
+.h3-grid { --h3-gap: 10px; columns: 3; column-gap: var(--h3-gap); }
+.h3-card { display: block; break-inside: avoid; margin-bottom: var(--h3-gap); }
 @media (max-width: 1024px) { .h3-grid { columns: 2; } }
 .h3-img { background: var(--line); overflow: hidden; }
 .h3-img img { width: 100%; height: auto; transition: transform .6s ease; }
 .h3-card:hover .h3-img img { transform: scale(1.02); }
-.h3-cap { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 8px; align-items: baseline; padding-top: 10px; }
+.h3-cap { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 8px; align-items: baseline; padding: 6px 0 4px; }
 .h3-cap h3 { margin: 0; font-size: clamp(15px, 1.3vw, 18px); font-weight: 500; letter-spacing: -0.01em; }
 .h3-cap .mono:last-child { grid-column: 2; }
 .h3-more {
@@ -119,10 +113,7 @@ main { min-height: 70vh; }
 .h3-more:hover span { transform: translateX(4px); }
 @media (max-width: 720px) {
   .h3-stage { height: auto; aspect-ratio: 4 / 5; }
-  .h3-grid { columns: 1; }
-  .h3-card:nth-child(n) { margin-left: 0; }
-  .h3-card:nth-child(odd) { width: 72%; }
-  .h3-card:nth-child(even) { width: 72%; margin-left: auto; }
+  .h3-grid { --h3-gap: 8px; columns: 2; }
 }
 
 /* Home 4: Strip — scroll sideways */
