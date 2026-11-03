@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Clip from "@/components/Clip";
 import Photo from "@/components/Photo";
 import { projects, type Photo as PhotoT } from "@/data/projects";
 import { site } from "@/data/site";
-import { coverOf, dateOf, dirOf, getProject, neighbours, photoRows, src } from "@/lib/work";
+import { coverOf, dateOf, dirOf, getProject, isVideo, neighbours, photoRows, src } from "@/lib/work";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -50,13 +51,17 @@ export default async function ProjectPage({ params }: Props) {
           <div key={row[0].file} className={`p-row ${row.length === 1 && row[0].height > row[0].width ? "solo" : ""}`}>
             {row.map((ph) => (
               <figure key={ph.file} style={{ flex: row.length === 2 ? ph.width / ph.height : 1 }}>
-                <Photo
-                  dir={dirOf(p)}
-                  photo={ph}
-                  alt={`${p.title}, photo ${n(ph)}`}
-                  priority={r === 0}
-                  sizes={row.length === 2 ? "50vw" : "100vw"}
-                />
+                {isVideo(ph) ? (
+                  <Clip dir={dirOf(p)} file={ph.file} width={ph.width} height={ph.height} label={`${p.title}, video ${n(ph)}`} />
+                ) : (
+                  <Photo
+                    dir={dirOf(p)}
+                    photo={ph}
+                    alt={`${p.title}, photo ${n(ph)}`}
+                    priority={r === 0}
+                    sizes={row.length === 2 ? "50vw" : "100vw"}
+                  />
+                )}
               </figure>
             ))}
           </div>

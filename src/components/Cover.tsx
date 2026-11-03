@@ -1,3 +1,4 @@
+import Clip from "@/components/Clip";
 import Photo from "@/components/Photo";
 import type { Project } from "@/data/projects";
 import { coverOf, dirOf } from "@/lib/work";
@@ -6,20 +7,5 @@ import { coverOf, dirOf } from "@/lib/work";
 export default function Cover({ p, sizes, fill, alt }: { p: Project; sizes: string; fill?: boolean; alt?: string }) {
   const v = p.coverVideo;
   if (!v) return <Photo dir={dirOf(p)} photo={coverOf(p)} alt={alt} sizes={sizes} fill={fill} />;
-  const base = `/video/${dirOf(p)}/${v.file}`;
-  return (
-    <video
-      className={fill ? "cover-video fill" : "cover-video"}
-      src={encodeURI(base)}
-      poster={encodeURI(base.replace(/\.[^.]+$/, ".jpg"))}
-      width={v.width}
-      height={v.height}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      aria-label={alt}
-    />
-  );
+  return <Clip dir={dirOf(p)} file={v.file} width={v.width} height={v.height} fill={fill} label={alt} />;
 }

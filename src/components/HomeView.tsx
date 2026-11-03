@@ -7,7 +7,7 @@ import Photo from "@/components/Photo";
 import Tag from "@/components/Tag";
 import { projects, type Project } from "@/data/projects";
 import { site } from "@/data/site";
-import { coverOf, dirOf, recent } from "@/lib/work";
+import { coverOf, dirOf, recent, stillsOf } from "@/lib/work";
 
 // Five layouts for the home page's recent projects. Pick one with
 // `homeStyle` in site.ts; compare them at /preview/home/1/ ... /5/.
@@ -43,7 +43,7 @@ const PER_PROJECT = 6;
 const AHEAD = 4; // frames loaded ahead of the one showing
 
 function Slideshow({ items }: { items: Project[] }) {
-  const frames = items.flatMap((p) => p.photos.slice(0, PER_PROJECT).map((ph) => ({ p, ph })));
+  const frames = items.flatMap((p) => stillsOf(p).slice(0, PER_PROJECT).map((ph) => ({ p, ph })));
   const [i, setI] = useState(0);
   // Frames load as the reel gets near them, so the page doesn't fetch every photo up front.
   const [reach, setReach] = useState(AHEAD);

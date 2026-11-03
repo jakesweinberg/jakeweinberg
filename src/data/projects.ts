@@ -10,7 +10,7 @@
 export type Category = "Editorial" | "Commercial" | "Personal";
 
 export type Photo = {
-  file: string; // filename inside public/images/<slug>/
+  file: string; // filename inside public/images/<slug>/ (a .mp4 lives in public/video/<slug>/ and plays as a silent loop)
   width: number; // original pixel size, used to reserve space
   height: number;
   alt?: string;
@@ -42,9 +42,8 @@ export const projects: Project[] = [
     date: "2026-11",
     location: "Brooklyn",
     cover: "JWP 77.jpg",
-    // To use the slow-motion runners video as the cover instead of JWP 77, add:
-    // coverVideo: { file: "2P0A6407_1.mp4", width: 1600, height: 900 },
     photos: [
+      { file: "2P0A6407_1.mp4", width: 1600, height: 900 },
       { file: "JWP 8.jpg", width: 2001, height: 3000 },
       { file: "JWP 43.jpg", width: 2001, height: 3000 },
       { file: "JWP 51.jpg", width: 2001, height: 3000 },
@@ -54,6 +53,7 @@ export const projects: Project[] = [
       { file: "JWP 120.jpg", width: 3000, height: 2001 },
       { file: "JWP 133.jpg", width: 2001, height: 3000 },
       { file: "JWP 147.jpg", width: 3000, height: 2001 },
+      { file: "2P0A6407.mp4", width: 1600, height: 900 },
     ],
   },
 ];

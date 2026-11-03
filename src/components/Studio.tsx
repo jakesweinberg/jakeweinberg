@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { projects as original, type Category, type Photo, type Project } from "@/data/projects";
 import { info as originalInfo, site as originalSite } from "@/data/site";
 import imageLoader from "@/lib/imageLoader";
-import { photoRows } from "@/lib/work";
+import { isVideo, photoRows, posterSrc } from "@/lib/work";
 
 // Studio: a private page for rearranging and editing the site without code.
 // The site is static, so nothing here saves to the live site. Changes are kept
@@ -28,7 +28,8 @@ const initial = (): Draft => ({
   info: structuredClone({ bio: originalInfo.bio, clients: originalInfo.clients, publications: originalInfo.publications, links: originalInfo.links }),
 });
 
-const thumb = (p: Project, ph: Photo) => imageLoader({ src: `/images/${p.folder ?? p.slug}/${ph.file}`, width: 480 });
+const thumb = (p: Project, ph: Photo) =>
+  isVideo(ph) ? encodeURI(posterSrc(p.folder ?? p.slug, ph.file)) : imageLoader({ src: `/images/${p.folder ?? p.slug}/${ph.file}`, width: 480 });
 const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 const move = <T,>(list: T[], from: number, to: number) => {
   const next = [...list];

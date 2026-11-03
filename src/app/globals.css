@@ -423,6 +423,6 @@ main { min-height: 70vh; }
   .st-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* Cover videos (projects with coverVideo) */
-.cover-video { display: block; background: var(--line); }
-.cover-video.fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Video clips: in a project, or as a cover (coverVideo) */
+.clip { display: block; width: 100%; height: auto; background: var(--line); }
+.clip.fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
