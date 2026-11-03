@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import Photo from "@/components/Photo";
+import Cover from "@/components/Cover";
 import { projects, type Category, type Project } from "@/data/projects";
 import { site } from "@/data/site";
-import { coverOf, dateOf, dirOf } from "@/lib/work";
+import { dateOf } from "@/lib/work";
 
 const CATEGORIES: Category[] = ["Editorial", "Commercial", "Personal"];
 
@@ -47,7 +47,7 @@ export default function ProjectList({ variant = site.indexStyle }: { variant?: I
     <div className={`peek-stack ${className}`} aria-hidden>
       {projects.map((p) => (
         <div key={p.slug} className={p.slug === current?.slug ? "on" : ""}>
-          <Photo dir={dirOf(p)} photo={coverOf(p)} fill sizes={sizes} />
+          <Cover p={p} fill sizes={sizes} />
         </div>
       ))}
     </div>
